@@ -1,0 +1,9 @@
+train: /content/hdd_0/2022__03_21_ours3_fics1_cvl05_addnew7_addnew7/images/train
+val: /content/hdd_0/2022__03_21_ours3_fics1_cvl05_addnew7_addnew7/images/validation
+
+
+# number of classes
+nc: 35
+
+# class names
+names : ['R','C','L_BD_R','BL','IC','LED','Q','D','RY','CNJ_whtie','EC','D_black','CNR_PS','IC_asym','BL_big','CNJ_black','SW','C_black','CNJ_big','AR_RP','L_square','OSC','TC','JK','R_bridge','CN_side','J_big','J_bbox','D_bridge','CN_green','PS_square','CNJ_female','A','LED_bulb','PL',]
