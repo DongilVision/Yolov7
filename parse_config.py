@@ -67,6 +67,9 @@ export_trt_path = f"python3 /content/tensorrt-python/export.py \
     -p fp16 --conf_thres=0.1 --iou_thres=0.25 --max_det 1000 -w 1"
 with open("/data/train.sh","w") as f:
     f.write("#!/bin/bash\n")
+    f.write("\n")
+    f.write("tensorboard --logdir /data/result")
+    f.write("\n")
     f.write(train_txt)
     f.write("\n")
     f.write(export_txt)
