@@ -60,7 +60,7 @@ export_txt = f"python3 /content/yolov7/export.py \
     --iou-thres 0.2\
     --conf-thres 0.1\
     --simplify"
-export_trt_path = f"python3 /content/tensorrt-python/export.py \
+export_trt_path = f"python3 /content/TensorRT-For-YOLO-Series/export.py \
     -o /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.onnx \
     -e /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.trt \
     -p fp16 --conf_thres=0.1 --iou_thres=0.25 --max_det 1000 -w 2"
