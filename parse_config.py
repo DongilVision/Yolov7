@@ -70,8 +70,13 @@ with open("/data/train.sh","w") as f:
     f.write(train_txt)
     f.write("\n")
     f.write(export_txt)
-    f.write("\n)
+    f.write("\n")
     f.write(export_trt_path)
+    f.write("\n")
+    f.write("mkdir data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp)
+    f.write("cp data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.pt data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights-temp/best.pt")
+    f.write("cp data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.onnx data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights-temp/best.onnx")
+    f.write("cp data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.trt data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights-temp/best.trt")
 DATA_PARAMS["train"] = "/data/images/train"
 DATA_PARAMS["val"] = "/data/images/validation"
 with open("/content/yolov7/data/data.yaml" ,"w") as f:
