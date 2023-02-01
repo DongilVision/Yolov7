@@ -73,10 +73,18 @@ with open("/data/train.sh","w") as f:
     f.write("\n")
     f.write(export_trt_path)
     f.write("\n")
-    f.write("mkdir data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp)
-    f.write("cp data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.pt data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights-temp/best.pt")
-    f.write("cp data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.onnx data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights-temp/best.onnx")
-    f.write("cp data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.trt data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights-temp/best.trt")
+    f.write("mkdir /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp")
+    f.write("\n")
+    f.write("cp /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.pt /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp/best.pt")
+    f.write("\n")
+    f.write("cp /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.onnx /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp/best.onnx")
+    f.write("\n")
+    f.write("cp /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.trt /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp/best.trt")
+    f.write("\n")
+    f.write("rm -rf /data/result/{{USER_PARAMS['SAVE-FOLDER-NAME']}/weights")
+    f.write("\n")
+    f.write("mv /data/result/{{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp/ /data/result/{{USER_PARAMS['SAVE-FOLDER-NAME']}/weights")
+    f.write("\n")
 DATA_PARAMS["train"] = "/data/images/train"
 DATA_PARAMS["val"] = "/data/images/validation"
 with open("/content/yolov7/data/data.yaml" ,"w") as f:
