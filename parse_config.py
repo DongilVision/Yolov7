@@ -59,8 +59,7 @@ export_txt = f"python3 /content/yolov7/export.py \
     --topk-all 1000\
     --iou-thres 0.2\
     --conf-thres 0.1\
-    --simplify\
-    --include-nms"
+    --simplify"
 export_trt_path = f"python3 /content/tensorrt-python/export.py \
     -o /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.onnx \
     -e /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.trt \
