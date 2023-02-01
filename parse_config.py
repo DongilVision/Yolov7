@@ -62,7 +62,7 @@ export_txt = f"python3 /content/yolov7/export.py \
     --simplify\
     --include-nms"
 export_trt_path = f"python3 /content/TensorRT-For-YOLO-Series/export.py \
-    -o /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.pt \
+    -o /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.onnx \
     -e /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.trt \
     -p fp16 --conf_thres=0.1 --iou_thres=0.25 --max_det 1000 -w 1"
 with open("/data/train.sh","w") as f:
