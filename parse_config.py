@@ -61,11 +61,17 @@ export_txt = f"python3 /content/yolov7/export.py \
     --conf-thres 0.1\
     --simplify\
     --include-nms"
+export_trt_path = f"python3 /content/TensorRT-For-YOLO-Series/export.py \
+    -o /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.pt \
+    -e /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.trt \
+    -p fp16 --conf_thres=0.1 --iou_thres=0.25 --max_det 1000 -w 1"
 with open("/data/train.sh","w") as f:
     f.write("#!/bin/bash\n")
     f.write(train_txt)
     f.write("\n")
     f.write(export_txt)
+    f.write("\n)
+    f.write(export_trt_path)
 DATA_PARAMS["train"] = "/data/images/train"
 DATA_PARAMS["val"] = "/data/images/validation"
 with open("/content/yolov7/data/data.yaml" ,"w") as f:
