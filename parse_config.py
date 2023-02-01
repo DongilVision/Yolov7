@@ -68,7 +68,7 @@ export_trt_path = f"python3 /content/tensorrt-python/export.py \
 with open("/data/train.sh","w") as f:
     f.write("#!/bin/bash\n")
     f.write("\n")
-    f.write("tensorboard --logdir /data/result")
+    f.write("tensorboard --logdir /data/result &")
     f.write("\n")
     f.write(train_txt)
     f.write("\n")
