@@ -86,7 +86,7 @@ with open("/data/train.sh","w") as f:
     f.write("\n")
     f.write(f"rm -rf /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights")
     f.write("\n")
-    f.write(f"mv /data/result/{{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp/ /data/result/{{USER_PARAMS['SAVE-FOLDER-NAME']}/weights")
+    f.write(f"mv /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp/ /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights")
     f.write("\n")
 DATA_PARAMS["train"] = "/data/images/train"
 DATA_PARAMS["val"] = "/data/images/validation"
