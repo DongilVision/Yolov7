@@ -2,19 +2,29 @@ import albumentations as A
 import time
 import random
 import os
-from utils import load_config,make_default_config,load_data,path2bboxes,path2images,save_transformed
+from aug_utils import load_config,make_default_config,load_data,path2bboxes,path2images,save_transformed
 from albu import config2pipelines
 from multiprocessing import Queue,Process
-from utils import init
 from custom import make_gradation_images,read_gradation_images,aug_gradation
 
 
 def process_func(index):
     config = load_config()
     try:
-        os.makedirs(config["1_GLOBAL_OPTIONS"]["save_path"])
-        os.makedirs(os.path.join(config["1_GLOBAL_OPTIONS"]["save_path"],"images"))
-        os.makedirs(os.path.join(config["1_GLOBAL_OPTIONS"]["save_path"],"labels"))
+        is_split = config["2_AUGMENTATION"]["Gradation"]["Probability"]
+        if not is_split:
+            os.makedirs("/data/AUG_DATA")
+            os.makedirs(os.path.join("/data/AUG_DATA","images"))
+            os.makedirs(os.path.join("/data/AUG_DATA","labels"))
+        elif is_split:
+            os.makedirs("/data/AUG_DATA")
+            os.makedirs(os.path.join("/data/AUG_DATA","images","train"))
+            os.makedirs(os.path.join("/data/AUG_DATA","images","validation"))
+            os.makedirs(os.path.join("/data/AUG_DATA","labels","train"))
+            os.makedirs(os.path.join("/data/AUG_DATA","labels","validation"))
+        else:
+            print("Error!")
+            exit()
     except:
         pass
     pipelines = config2pipelines()
@@ -36,7 +46,6 @@ def process_func(index):
 
 
 if __name__=="__main__":
-    init()
     config = load_config()
     make_gradation_images(config)
     process_list = []

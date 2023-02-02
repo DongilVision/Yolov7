@@ -6,6 +6,13 @@ with open(yaml_path,"r") as f:
 USER_PARAMS = configs["USER_PARAMS"]
 DATA_PARAMS = configs["DATA_PARAMS"]
 YOLO_PARAMS = configs["YOLO_PARAMS"]
+try:
+    AUG_PARAMS = configs["AUG_PARAMS"]
+    with open("/content/yolov7/config.yaml","w") as f:
+        yaml.dump(AUG_PARAMS,f)
+    AUG = True
+except:
+    AUG = False
 if USER_PARAMS['WEIGHTS']=="nano":
     weights = "yolov7_training.pt"
     cfg = "yolov7.yaml"
@@ -69,6 +76,9 @@ with open("/data/train.sh","w") as f:
     f.write("\n")
     f.write("tensorboard --logdir /data/result &")
     f.write("\n")
+    if AUG:
+        f.write("python3 /content/yolov7/main.py")
+        f.write("\n")
     f.write(train_txt)
     f.write("\n")
     f.write(export_txt)
@@ -87,9 +97,10 @@ with open("/data/train.sh","w") as f:
     f.write("\n")
     f.write(f"mv /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp/ /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights")
     f.write("\n")
-DATA_PARAMS["train"] = "/data/images/train"
-DATA_PARAMS["val"] = "/data/images/validation"
+DATA_PARAMS["train"] = "/data/images/train" if not AUG else "data/AUG_DATA/images/train"
+DATA_PARAMS["val"] = "/data/images/validation" if not AUG else "data/AUG_DATA/images/validation"
 with open("/content/yolov7/data/data.yaml" ,"w") as f:
     yaml.dump(DATA_PARAMS,f)
 with open("/content/yolov7/data/hyp.yaml" ,"w") as f:
     yaml.dump(YOLO_PARAMS,f)
+

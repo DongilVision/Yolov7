@@ -2,25 +2,18 @@ import yaml
 import os
 import cv2
 import time
+import random
 from pathlib import Path
-
-
-def init():
-    main_path = (Path(__file__).parent)
-    if os.path.isfile(os.path.join(main_path,'config.yaml')):
-        pass
-    else:
-        make_default_config()
-        exit()
         
 def load_config():
-    main_path = (Path(__file__).parent)
+    main_path="/data"
+    # main_path = (Path(__file__).parent)
     with open(os.path.join(main_path,"config.yaml"),"r") as f:
         return yaml.load(f,yaml.FullLoader)
     
 def load_data(config):
-    images_path = config["1_GLOBAL_OPTIONS"]["images_path"]
-    labels_path = config["1_GLOBAL_OPTIONS"]["labels_path"]
+    images_path = "/data/images"
+    labels_path = "/data/labels"
     images_list = os.listdir(images_path)
     labels_list = os.listdir(labels_path)
     images = []
@@ -44,14 +37,24 @@ def path2bboxes(labels):
     return new
 
 def save_transformed(image,label,config,index):
-    save_path = config["1_GLOBAL_OPTIONS"]["save_path"]
-    name = str(index)+ '_'.join(str(time.time()).split("."))
-    cv2.imwrite(os.path.join(save_path,"images",name+".jpg"),image)
-    label = [ " ".join([str(line[4]),str(line[0]),str(line[1]),str(line[2]),str(line[3])])+"\n" for line in label]
-    with open(os.path.join(save_path,"labels",name+".txt"),"w") as f:
-        for line in label:
-            f.write(line)
-    return
+    is_split = config["1_GLOBAL_OPTIONS"]["train_test_split"]
+    save_path = "/data/AUG_DATA"
+    if not is_split:
+        name = str(index)+ '_'.join(str(time.time()).split("."))
+        cv2.imwrite(os.path.join(save_path,"images",name+".jpg"),image)
+        label = [ " ".join([str(line[4]),str(line[0]),str(line[1]),str(line[2]),str(line[3])])+"\n" for line in label]
+        with open(os.path.join(save_path,"labels",name+".txt"),"w") as f:
+            for line in label:
+                f.write(line)
+    else:
+        train_or_validation =  "train" if random.uniform(0,1)<config["1_GLOBAL_OPTIONS"]["train_ratio"] else "validation"
+        name = str(index)+ '_'.join(str(time.time()).split("."))
+        cv2.imwrite(os.path.join(save_path,"images",train_or_validation,name+".jpg"),image)
+        label = [ " ".join([str(line[4]),str(line[0]),str(line[1]),str(line[2]),str(line[3])])+"\n" for line in label]
+        with open(os.path.join(save_path,"labels",train_or_validation,name+".txt"),"w") as f:
+            for line in label:
+                f.write(line)
+        
         
 def make_default_config():
     main_path = (Path(__file__).parent)
@@ -61,7 +64,7 @@ def make_default_config():
         "2_AUGMENTATION":{
             "RandomCrop":{
                 "Probability":1,
-                "Crop_size":(1280,1280),
+                "Crop_size":[1280,1280],
             },
             "HorizentalFlip":{
                 "Probability":0.5,
@@ -131,4 +134,4 @@ def make_default_config():
         },
     }
     with open(os.path.join(main_path,"config.yaml"),"w") as f:
-        yaml.dump(config,f,default_flow_style=None,indent=4,default_style=None,line_break='key',allow_unicode=False)
+        yaml.dump(config,f,default_flow_style=None,indent=4,)
