@@ -1,7 +1,7 @@
 import albumentations as A
 import random
 import copy
-from utils import load_config
+from aug_utils import load_config
 
 def albu_augmentations(key,value):
     if key=="Affine":
