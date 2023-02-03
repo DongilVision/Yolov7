@@ -6,7 +6,7 @@ import random
 from pathlib import Path
         
 def load_config():
-    main_path="/content/yolov7/config.yaml"
+    main_path="/content/yolov7"
     # main_path = (Path(__file__).parent)
     with open(os.path.join(main_path,"config.yaml"),"r") as f:
         return yaml.load(f,yaml.FullLoader)
