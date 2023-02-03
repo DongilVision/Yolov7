@@ -97,8 +97,8 @@ with open("/data/train.sh","w") as f:
     f.write("\n")
     f.write(f"mv /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp/ /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights")
     f.write("\n")
-DATA_PARAMS["train"] = "/data/images/train" if not AUG else "data/AUG_DATA/images/train"
-DATA_PARAMS["val"] = "/data/images/validation" if not AUG else "data/AUG_DATA/images/validation"
+DATA_PARAMS["train"] = "/data/images/train" if not AUG else "/data/AUG_DATA/images/train"
+DATA_PARAMS["val"] = "/data/images/validation" if not AUG else "/data/AUG_DATA/images/validation"
 with open("/content/yolov7/data/data.yaml" ,"w") as f:
     yaml.dump(DATA_PARAMS,f)
 with open("/content/yolov7/data/hyp.yaml" ,"w") as f:
