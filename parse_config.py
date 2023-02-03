@@ -74,7 +74,7 @@ export_trt_path = f"python3 /content/TensorRT-For-YOLO-Series/export.py \
 with open("/data/train.sh","w") as f:
     f.write("#!/bin/bash\n")
     f.write("\n")
-    f.write("tensorboard --logdir /data/result &")
+    #f.write("tensorboard --logdir /data/result &")
     f.write("\n")
     if AUG:
         f.write("python3 /content/yolov7/main.py")
