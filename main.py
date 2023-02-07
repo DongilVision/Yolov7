@@ -2,10 +2,10 @@ import albumentations as A
 import time
 import random
 import os
-from aug_utils import load_config,make_default_config,load_data,path2bboxes,path2images,save_transformed
-from albu import config2pipelines
+from div_aug_utils import load_config,make_default_config,load_data,path2bboxes,path2images,save_transformed
+from div_albu import config2pipelines
 from multiprocessing import Queue,Process
-from custom import make_gradation_images,read_gradation_images,aug_gradation
+from div_custom import make_gradation_images,read_gradation_images,aug_gradation
 
 
 def process_func(index):
