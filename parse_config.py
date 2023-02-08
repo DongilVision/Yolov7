@@ -39,7 +39,7 @@ elif USER_PARAMS['WEIGHTS']=="e6e":
     batch_size = 8
 if USER_PARAMS["IMG-SIZE"]==640:
     train_txt = f"python3 /content/yolov7/train.py\
-        --batch-size {USER_PARAMS['BATCH-SIZE']}\
+        --batch-size {batch_size}\
         --epochs {USER_PARAMS['EPOCHS']}\
         --device {USER_PARAMS['DEVICE']}\
         --img-size {USER_PARAMS['IMG-SIZE']} {USER_PARAMS['IMG-SIZE']}\
