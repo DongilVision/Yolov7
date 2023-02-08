@@ -52,7 +52,7 @@ if USER_PARAMS["IMG-SIZE"]==640:
         --hyp '/content/yolov7/data/hyp.yaml'"
 elif USER_PARAMS["IMG-SIZE"]==1280:
     train_txt = f"python3 /content/yolov7/train_aux.py\
-        --batch-size {USER_PARAMS['BATCH-SIZE']}\
+        --batch-size {batch_size}\
         --epochs {USER_PARAMS['EPOCHS']}\
         --device {USER_PARAMS['DEVICE']}\
         --img-size {USER_PARAMS['IMG-SIZE']} {USER_PARAMS['IMG-SIZE']}\
