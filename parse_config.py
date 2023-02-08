@@ -1,8 +1,10 @@
 import yaml
 import os
+from datetime import datetime
 yaml_path = "/data/config.yaml"
 with open(yaml_path,"r") as f:
     configs = yaml.load(f,Loader=yaml.FullLoader)
+date = datetime.now().strftime("%YY-%mM-%dD-%Hh-%Mmin-%Ssec")
 USER_PARAMS = configs["USER_PARAMS"]
 DATA_PARAMS = configs["DATA_PARAMS"]
 YOLO_PARAMS = configs["YOLO_PARAMS"]
@@ -43,11 +45,11 @@ if USER_PARAMS["IMG-SIZE"]==640:
         --epochs {USER_PARAMS['EPOCHS']}\
         --device {USER_PARAMS['DEVICE']}\
         --img-size {USER_PARAMS['IMG-SIZE']} {USER_PARAMS['IMG-SIZE']}\
-        --name {USER_PARAMS['SAVE-FOLDER-NAME']}\
+        --name {date}\
         --label-smoothing {USER_PARAMS['LABEL-SMOOTHING']}\
         --weights /content/yolov7/{weights}\
         --data '/content/yolov7/data/data.yaml'\
-        --project /data/result\
+        --project /data/{USER_PARAMS['SAVE-FOLDER-NAME']}\
         --cfg /content/yolov7/cfg/training/{cfg}\
         --hyp '/content/yolov7/data/hyp.yaml'"
 elif USER_PARAMS["IMG-SIZE"]==1280:
@@ -56,15 +58,15 @@ elif USER_PARAMS["IMG-SIZE"]==1280:
         --epochs {USER_PARAMS['EPOCHS']}\
         --device {USER_PARAMS['DEVICE']}\
         --img-size {USER_PARAMS['IMG-SIZE']} {USER_PARAMS['IMG-SIZE']}\
-        --name {USER_PARAMS['SAVE-FOLDER-NAME']}\
+        --name {date}\
         --label-smoothing {USER_PARAMS['LABEL-SMOOTHING']}\
         --weights /content/yolov7/{weights}\
         --data '/content/yolov7/data/data.yaml'\
-        --project /data/result\
+        --project /data/{USER_PARAMS['SAVE-FOLDER-NAME']}\
         --cfg /content/yolov7/cfg/training/{cfg}\
         --hyp '/content/yolov7/data/hyp.yaml'"
 export_txt = f"python3 /content/yolov7/export.py \
-    --weights /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.pt\
+    --weights /data/{USER_PARAMS['SAVE-FOLDER-NAME']}/{date}/weights/best.pt\
     --img-size {USER_PARAMS['IMG-SIZE']} {USER_PARAMS['IMG-SIZE']}\
     --grid\
     --end2end\
@@ -74,8 +76,8 @@ export_txt = f"python3 /content/yolov7/export.py \
     --conf-thres 0.1\
     --simplify"
 export_trt_path = f"python3 /content/TensorRT-For-YOLO-Series/export.py \
-    -o /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.onnx \
-    -e /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.trt \
+    -o /data/{USER_PARAMS['SAVE-FOLDER-NAME']}/{date}/weights/best.onnx \
+    -e /data/{USER_PARAMS['SAVE-FOLDER-NAME']}/{date}/weights/best.trt \
     -p fp16 --conf_thres=0.1 --iou_thres=0.25 --max_det 1000 -w 2"
 with open("/data/train.sh","w") as f:
     f.write("#!/bin/bash\n")
@@ -91,17 +93,17 @@ with open("/data/train.sh","w") as f:
     f.write("\n")
     f.write(export_trt_path)
     f.write("\n")
-    f.write(f"mkdir /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp")
+    f.write(f"mkdir /data/{USER_PARAMS['SAVE-FOLDER-NAME']}/{date}/weights_temp")
     f.write("\n")
-    f.write(f"cp /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.pt /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp/best.pt")
+    f.write(f"cp /data/{USER_PARAMS['SAVE-FOLDER-NAME']}/{date}/weights/best.pt /data/{USER_PARAMS['SAVE-FOLDER-NAME']}/{date}/weights_temp/best.pt")
     f.write("\n")
-    f.write(f"cp /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.onnx /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp/best.onnx")
+    f.write(f"cp /data/{USER_PARAMS['SAVE-FOLDER-NAME']}/{date}/weights/best.onnx /data/{USER_PARAMS['SAVE-FOLDER-NAME']}/{date}/weights_temp/best.onnx")
     f.write("\n")
-    f.write(f"cp /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights/best.trt /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp/best.trt")
+    f.write(f"cp /data/{USER_PARAMS['SAVE-FOLDER-NAME']}/{date}/weights/best.trt /data/{USER_PARAMS['SAVE-FOLDER-NAME']}/{date}/weights_temp/best.trt")
     f.write("\n")
-    f.write(f"rm -rf /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights")
+    f.write(f"rm -rf /data/{USER_PARAMS['SAVE-FOLDER-NAME']}/{date}/weights")
     f.write("\n")
-    f.write(f"mv /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights_temp/ /data/result/{USER_PARAMS['SAVE-FOLDER-NAME']}/weights")
+    f.write(f"mv /data/{USER_PARAMS['SAVE-FOLDER-NAME']}/{date}/weights_temp/ /data/{USER_PARAMS['SAVE-FOLDER-NAME']}/{date}/weights")
     f.write("\n")
 DATA_PARAMS["train"] = "/data/images/train" if not AUG else "/data/AUG_DATA/images/train"
 DATA_PARAMS["val"] = "/data/images/validation" if not AUG else "/data/AUG_DATA/images/validation"
