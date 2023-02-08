@@ -16,21 +16,27 @@ except:
 if USER_PARAMS['WEIGHTS']=="nano":
     weights = "yolov7_training.pt"
     cfg = "yolov7.yaml"
+    batch_size = 36
 elif USER_PARAMS['WEIGHTS']=="x":
     weights = "yolov7x_training.pt"
     cfg = "yolov7x.yaml"
+    batch_size = 24
 elif USER_PARAMS['WEIGHTS']=="w6":
     weights = "yolov7-w6_training.pt"
     cfg = "yolov7-w6.yaml"
+    batch_size = 18
 elif USER_PARAMS['WEIGHTS']=="e6":
     weights = "yolov7-e6_training.pt"
     cfg = "yolov7-e6.yaml"
+    batch_size = 14
 elif USER_PARAMS['WEIGHTS']=="d6":
     weights = "yolov7-d6_training.pt"
     cfg = "yolov7-d6.yaml"
+    batch_size = 10
 elif USER_PARAMS['WEIGHTS']=="e6e":
     weights = "yolov7-e6e_training.pt"
     cfg = "yolov7-e6e.yaml"
+    batch_size = 8
 if USER_PARAMS["IMG-SIZE"]==640:
     train_txt = f"python3 /content/yolov7/train.py\
         --batch-size {USER_PARAMS['BATCH-SIZE']}\
